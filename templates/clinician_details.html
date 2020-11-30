@@ -1,20 +1,34 @@
-{% extends "base.html" %}
+{% extends "patient.html" %}
 
-{% block title %} COVID-19 Patient's Web Portal {% endblock %}
+{% block title %} COVID-19 Clinician's Web Portal - {{ page }} {% endblock %}
 
-{% block userInfo %} <h2 class="title is-5"> Welcome {{ name }}! </h2> {% endblock %}
+{% block userInfo %}
+    <h2 class="title is-5"> Welcome {{ c_name }}! </h2>
+
+{% endblock %}
 
 {% block headContent %}
     <br><br><br><br><br><br>
     <div class="columns is-mobile">
         <div class="column is-three-fifths is-offset-one-fifth">
-            <p class="title is-3">Your Risk Level: Warning</p>
+            <p class="title is-3">Patient {{ p_name }}</p>
+        </div>
+    </div>
+    <div class="columns is-mobile">
+        <div class="column is-three-fifths is-offset-one-fifth">
+            <p class="title is-3">Patient's Risk Level: {{ patient_record['health status'] }}</p>
         </div>
     </div>
 
     <div class="columns is-mobile">
         <div class="column is-three-fifths is-offset-one-fifth">
             <p class="title is-3">Current Ward Allocation: {{ patient_record['ward allocation'] }}</p>
+        </div>
+    </div>
+
+    <div class="columns is-mobile">
+        <div class="column is-three-fifths is-offset-one-fifth">
+            <p class="title is-3">Suggest Allocation: {{ patient_record['suggest ward'] }}</p>
         </div>
     </div>
 {% endblock %}
@@ -69,7 +83,7 @@
         <div class="column">
             <br><br>
             {% if patient_record['patient has disease'] %}
-                <p class="bd-notification is-danger title is-5">You are currently infected / have other disease</p>
+                <p class="bd-notification is-danger title is-5">Patient is currently infected / has other disease</p>
             {% endif %}
             <br><br>
             <p class="bd-notification is-danger title is-5">COVID-19 Test Result</p>

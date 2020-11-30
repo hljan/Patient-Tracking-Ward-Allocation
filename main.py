@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
-from get_data_fhir import search_patient_data, search_all_patient_data
+from get_data_fhir import search_patient_data, search_all_patient_data, count_ward_allocation, calculate_health_status, \
+    get_health_status
 import data_cleanup
 import upload_data
 
@@ -26,15 +27,16 @@ def patient(patient_id):
     return render_template('patient.html', name=current_user.fullname, patient_record=patient_record)
 
 
-@main.route('/clinician/<page>')
+@main.route('/clinician/<page>/<user_id>')
 @login_required
-def clinician(page):
+def clinician(page, user_id):
     if page == 'Overview':
         patient_records = search_all_patient_data()
-        return render_template('clinician.html', page=page, name=current_user.fullname, patient_records=patient_records)
-
-
-@main.route('/profile')
-@login_required
-def profile():
-    return render_template('profile.html', name=current_user.fullname, id=current_user.userid)
+        ward_allocation = count_ward_allocation(patient_records)
+        patient_records_with_status = calculate_health_status(patient_records, ward_allocation)
+        return render_template('clinician.html', page=page, name=current_user.fullname,
+                               patient_records=patient_records_with_status, ward_allocation=ward_allocation)
+    if page == 'Details':
+        # patient_record = search_patient_data(user_id)
+        patient_record = get_health_status(user_id)
+        return render_template('clinician_details.html', c_name=current_user.fullname, p_name=patient_record['full name'], patient_record=patient_record)

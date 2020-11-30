@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user
 from datetime import timedelta
 from model import UserInfo
+from get_data_fhir import clear_local_database
 
 auth = Blueprint('auth', __name__)
 
@@ -29,11 +30,12 @@ def login_post():
     if user.usertype == 'patient':
         return redirect(url_for('main.patient', patient_id=user.userid))
     elif user.usertype == 'clinician':
-        return redirect(url_for('main.clinician', page='Overview'))
+        return redirect(url_for('main.clinician', page='Overview', user_id=user.userid))
 
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
+    clear_local_database()
     return redirect(url_for('auth.login'))

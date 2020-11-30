@@ -4,20 +4,41 @@
 
 {% block userInfo %} <h2 class="title is-5"> Welcome {{ name }}! </h2> {% endblock %}
 
-{% block bodyContent %}
-    <br><br><br><br><br>
+{% block loginContent %}
     <div class="columns">
         <div class="column is-one-third">
             {% for patient_record in patient_records %}
                 <a class="button is-info is-inverted"
-                   href="{{ url_for('main.initiate_patient_data', status='start') }}">
+                   href="{{ url_for('main.clinician', page='Details', user_id=patient_record['patient id']) }}">
                     <span>Patient: {{ patient_record['full name'] }}</span>
+                    &nbsp&nbsp
+                    <span>Status: {{ patient_record['health status'] }}</span>
                 </a>
                 <br><br>
             {% endfor %}
         </div>
         <div class="column">
-            <p class="bd-notification is-danger title is-5">Total number of patients: {{ patient_records|length }}</p>
+            <p class="bd-notification is-danger title is-4">Total number of patients: {{ patient_records|length }}</p>
+            <br><br>
+            <p class="bd-notification is-danger title is-4">
+                Bed Occupation Rate: {{ (ward_allocation['current'] / ward_allocation['total'] * 100)|round|int }}%
+            </p>
+            <p class="bd-notification is-danger title is-5">
+                Regulation Ward Occupation: {{ ward_allocation['regular ward'] }}
+                / {{ ward_allocation['regular ward total'] }}
+            </p>
+            <p class="bd-notification is-danger title is-5">
+                Semi-intensive Unit Occupation: {{ ward_allocation['semi-intensive unit'] }}
+                / {{ ward_allocation['semi-intensive unit total'] }}
+            </p>
+            <p class="bd-notification is-danger title is-5">
+                Intensive Care Unit Occupation: {{ ward_allocation['intensive care unit'] }}
+                / {{ ward_allocation['intensive care unit total'] }}
+            </p>
+            <p class="bd-notification is-danger title is-5">
+                Patients without Ward Occupation: {{ ward_allocation['no allocation'] }}
+            </p>
+
         </div>
     </div>
 {% endblock %}
