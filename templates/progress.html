@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %} COVID-19 Progress Page {% endblock %}
+
+{% block content %}
+    {% if status == 'start' %}
+        <h1 class="title">
+            Initiating Patient Data and uploading to FHIR server...
+        </h1>
+        <meta http-equiv="refresh" content="1; {{ url_for('main.initiate_patient_data', status='data_cleanup') }}"/>
+    {% elif status == 'data_cleanup' %}
+        <h1 class="title">
+            Source data is clean-up! Now uploading data to FHIR server...
+        </h1>
+        <p>
+            {{ msg_origin }}
+        </p>
+        <p>
+            {{ msg_cleanup }}
+        </p>
+        <meta http-equiv="refresh" content="1; {{ url_for('main.initiate_patient_data', status='data_upload') }}"/>
+    {% elif status == 'data_upload' %}
+        <h1 class="title">
+            Initialization done!
+        </h1>
+        <p>
+            {{ msg_sample_patients }}
+        </p>
+        <meta http-equiv="refresh" content="3; {{ url_for('auth.login') }}"/>
+    {% endif %}
+{% endblock %}

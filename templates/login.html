@@ -1,0 +1,50 @@
+{#Reference: https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login#}
+{% extends "base.html" %}
+
+{% block title %} COVID-19 Web Portal {% endblock %}
+
+{% block navbarContent %}
+    {% if not current_user.is_authenticated %}
+        <span class="navbar-item">
+            <a class="button is-info is-inverted" href="{{ url_for('main.initiate_patient_data', status='start') }}">
+                <span>Initiate Patient Data</span>
+            </a>
+        </span>
+    {% endif %}
+{% endblock %}
+
+{% block loginContent %}
+    <div class="column is-5 is-offset-4">
+        <h3 class="title">COVID-19 Web Portal Login</h3>
+        <div class="box">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="notification is-danger">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <form method="POST" action="/login">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="username" name="username" placeholder="Username"
+                               autofocus="">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox">
+                        Remember me
+                    </label>
+                </div>
+                <button class="button is-block is-info is-large is-fullwidth">Login</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %} COVID-19 Patient's Web Portal {% endblock %}
+
+{% block userInfo %} <h2 class="title is-5"> Welcome {{ name }}! </h2> {% endblock %}
+
+{% block headContent %}
+    <br><br><br><br><br><br>
+    <div class="columns is-mobile">
+        <div class="column is-three-fifths is-offset-one-fifth">
+            <p class="title is-3">Your Risk Level: Warning</p>
+        </div>
+    </div>
+
+    <div class="columns is-mobile">
+        <div class="column is-three-fifths is-offset-one-fifth">
+            <p class="title is-3">Current Ward Allocation: {{ patient_record['ward allocation'] }}</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bodyContent %}
+    <br><br><br><br>
+    <div class="columns">
+        <div class="column">
+            <p class="bd-notification is-info title is-5">Current vital signs</p>
+            <br>
+            <div class="columns is-mobile">
+                <div class="column">
+                    <p class="bd-notification is-info">Leukocytes</p>
+                </div>
+                <div class="column">
+                    <p class="bd-notification is-info">{{ '%0.3f' | format(patient_record['leukocytes']|float) }} {{ patient_record['UoM leukocytes'] }}</p>
+                </div>
+            </div>
+            <div class="columns is-mobile">
+                <div class="column">
+                    <p class="bd-notification is-info">Platelets</p>
+                </div>
+                <div class="column">
+                    <p class="bd-notification is-info">{{ '%0.3f' | format(patient_record['platelets']|float) }} {{ patient_record['UoM platelets'] }}</p>
+                </div>
+            </div>
+            <div class="columns is-mobile">
+                <div class="column">
+                    <p class="bd-notification is-info">Platelets Mean Volume</p>
+                </div>
+                <div class="column">
+                    <p class="bd-notification is-info">{{ '%0.3f' | format(patient_record['platelets mean volume']|float) }} {{ patient_record['UoM platelets mean volume'] }}</p>
+                </div>
+            </div>
+            <div class="columns is-mobile">
+                <div class="column">
+                    <p class="bd-notification is-info">Eosinophils</p>
+                </div>
+                <div class="column">
+                    <p class="bd-notification is-info">{{ '%0.3f' | format(patient_record['eosinophils']|float) }} {{ patient_record['UoM eosinophils'] }}</p>
+                </div>
+            </div>
+            <div class="columns is-mobile">
+                <div class="column">
+                    <p class="bd-notification is-info">Monocytes</p>
+                </div>
+                <div class="column">
+                    <p class="bd-notification is-info">{{ '%0.3f' | format(patient_record['monocytes']|float) }} {{ patient_record['UoM monocytes'] }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <br><br><br><br><br>
+            <p class="bd-notification is-danger title is-5">COVID-19 Test Result</p>
+            <div class="column">
+                <p class="bd-notification is-danger title is-4">{{ patient_record['COVID-19 test result'] }}</p>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="columns is-mobile">
+        <div class="column is-three-fifths is-offset-one-fifth">
+            <p class="title is-5">Medication Requests</p>
+            <li>request 1</li>
+            <li>request 2</li>
+        </div>
+    </div>
+{% endblock %}

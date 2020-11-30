@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %} COVID-19 Clinician's Web Portal - {{ page }} {% endblock %}
+
+{% block userInfo %} <h2 class="title is-5"> Welcome {{ name }}! </h2> {% endblock %}
+
+{% block bodyContent %}
+    <br><br><br><br><br>
+    <div class="columns">
+        <div class="column is-one-third">
+            {% for patient_record in patient_records %}
+                <a class="button is-info is-inverted"
+                   href="{{ url_for('main.initiate_patient_data', status='start') }}">
+                    <span>Patient: {{ patient_record['full name'] }}</span>
+                </a>
+                <br><br>
+            {% endfor %}
+        </div>
+        <div class="column">
+            <p class="bd-notification is-danger title is-5">Total number of patients: {{ patient_records|length }}</p>
+        </div>
+    </div>
+{% endblock %}
